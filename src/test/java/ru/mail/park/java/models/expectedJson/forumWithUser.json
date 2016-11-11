@@ -1,0 +1,26 @@
+{
+  "id": 12,
+  "name": "FORUM_NAME",
+  "user": {
+    "id": 3,
+    "about": "Some text about user.",
+    "email": "test@email.ru",
+    "name": "NAME",
+    "username": "USERNAME",
+    "following": [
+      "folg1",
+      "folg2"
+    ],
+    "subscriptions": [
+      4,
+      11
+    ],
+    "isAnonymous": true,
+    "followers": [
+      "fol1",
+      "fol2",
+      "fol3"
+    ]
+  },
+  "short_name": "FORUM_SHORT_NAME"
+}
