@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by kirrok on 10.11.16.
  */
-public class Forum <T> {
+public class Forum<T> {
     private long id;
     private String name;
     @JsonProperty("short_name")

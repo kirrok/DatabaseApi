@@ -15,7 +15,6 @@ public class User {
     private final String username;
     @JsonProperty("isAnonymous")
     private boolean isAnonumous;
-    @JsonProperty("followers")
     private ArrayList<String> followers;
     private ArrayList<String> following;
     private ArrayList<Integer> subscriptions;

@@ -2,7 +2,9 @@ package ru.mail.park.java.models;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.mail.park.models.Forum;
 import ru.mail.park.models.User;
@@ -17,7 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @JsonTest
 @RunWith(SpringRunner.class)
 public class ForumTest extends AbstractModelTest {
-    private Forum forum;
+    @Autowired
+    protected JacksonTester<Forum<?>> jsonTester;
+
+    private Forum<?> forum;
 
     private void testSerialization() throws IOException {
         assertThat(jsonTester.write(forum)).hasJsonPathNumberValue("id")
@@ -32,7 +37,7 @@ public class ForumTest extends AbstractModelTest {
 
     @Test
     public void testSerializeWithRelated() throws IOException {
-        forum = new Forum<User>(FORUM_NAME, FORUM_SHORT_NAME, user);
+        forum = new Forum<User>(FORUM_NAME, FORUM_SHORT_NAME, simpleUser);
         forum.setId(FORUM_ID);
 
         testSerialization();
