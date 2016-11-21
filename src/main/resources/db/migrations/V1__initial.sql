@@ -1,6 +1,48 @@
+CREATE TABLE user (
+  id        INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name      CHAR(100),
+  username  CHAR(30),
+  email     CHAR(30) UNIQUE NOT NULL,
+  about     CHAR(255),
+  anonymous BOOLEAN         NOT NULL DEFAULT 0
+)
+  CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+
+CREATE TABLE forum (
+  id         INT              NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name       CHAR(100) UNIQUE NOT NULL,
+  short_name CHAR(30) UNIQUE  NOT NULL,
+  user_id    INT              NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (id)
+)
+  CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+
+
+CREATE TABLE thread (
+  id       INT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  title    CHAR(100) NOT NULL,
+  message  CHAR(255) NOT NULL,
+  slug     CHAR(100) NOT NULL,
+  date     DATETIME  NOT NULL,
+  closed   BOOLEAN   NOT NULL DEFAULT 0,
+  deleted  BOOLEAN   NOT NULL DEFAULT 0,
+  likes    INT       NOT NULL DEFAULT 0,
+  dislikes INT       NOT NULL DEFAULT 0,
+  posts    INT       NOT NULL DEFAULT 0,
+  user_id  INT       NOT NULL,
+  forum_id INT       NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (forum_id) REFERENCES forum (id)
+)
+  CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+
+
 CREATE TABLE post (
   id            INT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  message       CHAR(300) NOT NULL,
+  message       CHAR(255) NOT NULL,
   date          DATETIME  NOT NULL,
   path          CHAR(255) NOT NULL,
   parent        INT,
@@ -21,46 +63,8 @@ CREATE TABLE post (
   CHARACTER SET utf8
   DEFAULT COLLATE utf8_general_ci;
 
-CREATE TABLE forum (
-  id         INT              NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name       CHAR(100) UNIQUE NOT NULL,
-  short_name CHAR(30) UNIQUE  NOT NULL,
-  user_id    INT              NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES user (id)
-)
-  CHARACTER SET utf8
-  DEFAULT COLLATE utf8_general_ci;
 
 
-CREATE TABLE thread (
-  id       INT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  title    CHAR(100) NOT NULL,
-  message  CHAR(300) NOT NULL,
-  slug     CHAR(100) NOT NULL,
-  date     DATETIME  NOT NULL,
-  closed   BOOLEAN   NOT NULL DEFAULT 0,
-  deleted  BOOLEAN   NOT NULL DEFAULT 0,
-  likes    INT       NOT NULL DEFAULT 0,
-  dislikes INT       NOT NULL DEFAULT 0,
-  posts    INT       NOT NULL DEFAULT 0,
-  user_id  INT       NOT NULL,
-  forum_id INT       NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES user (id),
-  FOREIGN KEY (forum_id) REFERENCES forum (id)
-)
-  CHARACTER SET utf8
-  DEFAULT COLLATE utf8_general_ci;
-
-CREATE TABLE user (
-  id        INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name      CHAR(100),
-  username  CHAR(30),
-  email     CHAR(30) UNIQUE NOT NULL,
-  about     CHAR(300),
-  anonymous BOOLEAN         NOT NULL DEFAULT 0
-)
-  CHARACTER SET utf8
-  DEFAULT COLLATE utf8_general_ci;
 
 
 CREATE TABLE subscription (
