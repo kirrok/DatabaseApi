@@ -1,7 +1,8 @@
 package ru.mail.park.controllers;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.mail.park.dao.ThreadDAO;
 
@@ -11,11 +12,18 @@ import java.util.List;
 
 @RestController
 public class ThreadController {
+    private final ThreadDAO threadDAO;
+    private static final Logger LOGGER = LogManager.getLogger("THREAD");
+
     @Autowired
-    private ThreadDAO threadDAO;
+    public ThreadController(ThreadDAO threadDAO) {
+        this.threadDAO = threadDAO;
+    }
+
 
     @RequestMapping(path = "/db/api/thread/create", method = RequestMethod.POST)
     public CustomResponse create(@RequestBody String threadString) throws IOException {
+        LOGGER.info("create");
         return threadDAO.create(threadString);
     }
 
@@ -25,16 +33,20 @@ public class ThreadController {
         if(related == null) {
             related = new ArrayList<>();
         }
+        LOGGER.info("details");
+
         return threadDAO.details(threadId, related);
     }
 
     @RequestMapping(path = "/db/api/thread/close", method = RequestMethod.POST)
     public CustomResponse close(@RequestBody String threadString) throws IOException {
+        LOGGER.info("close");
         return threadDAO.close(threadString);
     }
 
     @RequestMapping(path = "/db/api/thread/open", method = RequestMethod.POST)
     public CustomResponse open(@RequestBody String threadString) throws IOException {
+        LOGGER.info("open");
         return threadDAO.open(threadString);
     }
 
@@ -44,36 +56,47 @@ public class ThreadController {
                                @RequestParam(value = "since",required = false) String since,
                                @RequestParam(value = "limit",required = false) String limit,
                                @RequestParam(value = "order", required = false) String order) throws IOException {
+        LOGGER.info("list");
+
         return threadDAO.list(forumShortName, email, since, limit, order);
     }
 
     @RequestMapping(path = "/db/api/thread/remove", method = RequestMethod.POST)
     public CustomResponse remove(@RequestBody String threadString) throws IOException {
+        LOGGER.info("remove");
         return threadDAO.remove(threadString);
     }
 
     @RequestMapping(path = "/db/api/thread/restore", method = RequestMethod.POST)
     public CustomResponse restore(@RequestBody String threadString) throws IOException {
+        LOGGER.info("restore");
         return threadDAO.restore(threadString);
     }
 
     @RequestMapping(path = "/db/api/thread/subscribe", method = RequestMethod.POST)
     public CustomResponse subscribe(@RequestBody String subscribeString) throws IOException {
+        LOGGER.info("subscribe");
+
         return threadDAO.subscribe(subscribeString);
     }
 
     @RequestMapping(path = "/db/api/thread/unsubscribe", method = RequestMethod.POST)
     public CustomResponse unsubscribe(@RequestBody String unsubscribeString) throws IOException {
+        LOGGER.info("unsubscribe");
+
         return threadDAO.unsubscribe(unsubscribeString);
     }
 
     @RequestMapping(path = "/db/api/thread/update", method = RequestMethod.POST)
     public CustomResponse update(@RequestBody String threadString) throws IOException {
+        LOGGER.info("update");
         return threadDAO.update(threadString);
     }
 
     @RequestMapping(path = "/db/api/thread/vote", method = RequestMethod.POST)
     public CustomResponse vote(@RequestBody String voteString) throws IOException {
+        LOGGER.info("vote");
+
         return threadDAO.vote(voteString);
     }
 
@@ -83,6 +106,8 @@ public class ThreadController {
                                     @RequestParam(value = "since",required = false) String since,
                                     @RequestParam(value = "limit",required = false) String limit,
                                     @RequestParam(value = "order",required = false) String order) throws IOException {
+        LOGGER.info("listPosts");
+
         return threadDAO.listPosts(threadId, sort, since, limit, order);
     }
 }

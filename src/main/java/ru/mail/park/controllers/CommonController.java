@@ -1,5 +1,7 @@
 package ru.mail.park.controllers;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ public class CommonController {
     private final ThreadDAO threadDAO;
     private final PostDAO postDAO;
 
+    private static final Logger LOGGER = LogManager.getLogger("COMMON");
     @Autowired
     public CommonController(UserDAO userDAO, ForumDAO forumDAO, ThreadDAO threadDAO, PostDAO postDAO) {
         this.userDAO = userDAO;
@@ -30,7 +33,6 @@ public class CommonController {
         this.threadDAO = threadDAO;
         this.postDAO = postDAO;
     }
-
 
     @RequestMapping(path = "/db/api/clear", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
@@ -40,6 +42,7 @@ public class CommonController {
         threadDAO.truncateTable();
         postDAO.truncateTable();
 
+        LOGGER.info("clear");
         return new CustomResponse("OK", CustomResponse.OK);
     }
 
@@ -51,7 +54,7 @@ public class CommonController {
         responseBody.put("forum", forumDAO.count());
         responseBody.put("post", postDAO.count());
 
+        LOGGER.info("status");
         return new CustomResponse(responseBody, CustomResponse.OK);
-
     }
 }
