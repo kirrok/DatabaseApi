@@ -38,16 +38,15 @@ public class CommonController {
         this.postDAO = postDAO;
     }
 
-    @RequestMapping(path="/scenario", method = RequestMethod.GET)
+    @RequestMapping(path="/sobolev_httperf_scenario", method = RequestMethod.GET)
     public void getScenario(HttpServletResponse response) {
         final Path file = Paths.get("sobolev_httperf_scenario");
 
-        //  LOGGER.info();
+        LOGGER.info("Отдаем сценарий.");
         response.setContentType("txt/plain");
         response.addHeader("Content-Disposition", "attachment; filename=sobolev_httperf_scenario");
         try {
             Files.copy(file, response.getOutputStream());
-
             response.getOutputStream().flush();
         } catch (IOException e) {
             LOGGER.error(e);
