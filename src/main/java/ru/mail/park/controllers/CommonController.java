@@ -13,7 +13,11 @@ import ru.mail.park.dao.PostDAO;
 import ru.mail.park.dao.ThreadDAO;
 import ru.mail.park.dao.UserDAO;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +36,22 @@ public class CommonController {
         this.forumDAO = forumDAO;
         this.threadDAO = threadDAO;
         this.postDAO = postDAO;
+    }
+
+    @RequestMapping(path="/scenario", method = RequestMethod.GET)
+    public void getScenario(HttpServletResponse response) {
+        final Path file = Paths.get("sobolev_httperf_scenario");
+
+        //  LOGGER.info();
+        response.setContentType("txt/plain");
+        response.addHeader("Content-Disposition", "attachment; filename=sobolev_httperf_scenario");
+        try {
+            Files.copy(file, response.getOutputStream());
+
+            response.getOutputStream().flush();
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
     }
 
     @RequestMapping(path = "/db/api/clear", method = RequestMethod.POST)
