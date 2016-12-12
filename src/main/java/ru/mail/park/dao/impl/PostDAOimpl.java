@@ -43,7 +43,7 @@ public class PostDAOimpl implements PostDAO {
         try (Connection connection = Main.connection.getConnection()) {
             int count = 0;
             final Statement stmt = connection.createStatement();
-            final ResultSet resultSet = stmt.executeQuery("SELECT posts FROM thread");
+            final ResultSet resultSet = stmt.executeQuery("SELECT COUNT(*) FROM post");
             while (resultSet.next()) {
                 count += resultSet.getInt(1);
             }
