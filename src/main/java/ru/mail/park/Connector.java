@@ -16,12 +16,13 @@ public class Connector {
     public static final String USER = "root";
 
     public static final String PASSWORD = "1";
+    public static final int MAX_ACTIVE = 5;
 
     public DataSource createSource() throws Exception
     {
         Class.forName(DRIVER).newInstance();
         final GenericObjectPool     connectionPool = new GenericObjectPool();
-        connectionPool.setMaxActive(100);
+        connectionPool.setMaxActive(MAX_ACTIVE);
         final ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(URL, USER, PASSWORD);
 
         final PoolableConnectionFactory pcf = new PoolableConnectionFactory(
